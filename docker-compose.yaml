@@ -1,0 +1,12 @@
+version: '3.8'
+name: docker
+services:
+  db:
+    container_name: docker
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=docker
