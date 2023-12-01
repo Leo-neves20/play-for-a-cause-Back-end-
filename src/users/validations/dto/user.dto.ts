@@ -1,32 +1,36 @@
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
-import { IsUniqueEmail } from '../email.validation';
-import { IsPasswordValid } from '../password.validation';
+import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
+import { IsUniqueEmail } from "../email.validation";
+import { IsPasswordValid } from "../password.validation";
+import { IsUserCodeValid } from "../userCode.validation";
 
 export class UserCreateDTO {
   @IsNotEmpty({
-    message: 'Nome não pode ser vazio',
+    message: "Nome não pode ser vazio",
   })
   name: string;
 
-  @IsEmail(undefined, { message: 'Email inválido' })
+  @IsEmail(undefined, { message: "Email inválido" })
   @IsUniqueEmail({
-    message: 'Este email já está cadastrado',
+    message: "Este email já está cadastrado",
   })
   email: string;
 
-  @MinLength(6, { message: 'a senha precisa ter no minimo 6 dígitos' })
+  @MinLength(6, { message: "a senha precisa ter no minimo 6 dígitos" })
   @IsPasswordValid({
-    message: 'A senha deve conter um caracter especial e uma letra maiúscula',
+    message: "A senha deve conter um caracter especial e uma letra maiúscula",
   })
   password: string;
 
   @IsNotEmpty({
-    message: 'código do usuário não pode ser vazio',
+    message: "código do usuário não pode ser vazio",
+  })
+  @IsUserCodeValid({
+    message: "Código do usuário já existe.",
   })
   userCode: string;
 
   @IsNotEmpty({
-    message: 'não é possível criar um usuário sem foto',
+    message: "não é possível criar um usuário sem foto",
   })
   urlPhoto: string;
 }
