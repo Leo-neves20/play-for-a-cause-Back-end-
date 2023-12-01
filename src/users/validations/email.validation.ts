@@ -1,33 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 import {
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
   registerDecorator,
-} from 'class-validator';
-import { PrismaService } from 'src/config/prisma.service';
+} from "class-validator";
+import { UserRepository } from "../user.repository";
+
 @Injectable()
 @ValidatorConstraint({
   async: true,
 })
 export class EmailValidation implements ValidatorConstraintInterface {
-  constructor(private FindUserByEmail: FindUserByEmail) {}
+  constructor(private repository: UserRepository) {}
 
-  validate(email: any): Promise<boolean> {
-    const isAlreadyEmail = this.FindUserByEmail.findEmail(email);
+  async validate(email: string): Promise<boolean> {
+    const isAlreadyEmail = await this.repository.findOneByEmail(email);
     return isAlreadyEmail;
-  }
-}
-
-export class FindUserByEmail {
-  constructor(private readonly prisma: PrismaService) {}
-
-  async findEmail(userEmail: string) {
-    const getUserByEmail = this.prisma.user.findFirst({
-      where: { email: userEmail },
-    });
-
-    return getUserByEmail === undefined || getUserByEmail === null;
   }
 }
 

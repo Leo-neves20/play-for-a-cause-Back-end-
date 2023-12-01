@@ -1,28 +1,22 @@
 import {
   ValidationOptions,
+  ValidatorConstraint,
   ValidatorConstraintInterface,
   registerDecorator,
 } from "class-validator";
-import { PrismaService } from "src/config/prisma.service";
+import { UserRepository } from "../user.repository";
+import { Injectable } from "@nestjs/common";
 
-export class UserCodeVerification implements ValidatorConstraintInterface {
-  constructor(private readonly UserCodeValidation: UserCodeValidation) {}
+@Injectable()
+@ValidatorConstraint({
+  async: true,
+})
+export class UserCodeValidator implements ValidatorConstraintInterface {
+  constructor(private repository: UserRepository) {}
 
-  validate(value: string): Promise<boolean> {
-    const findUser = this.UserCodeValidation.findUserCode(value);
-    return findUser;
-  }
-}
-
-class UserCodeValidation {
-  constructor(private readonly prisma: PrismaService) {}
-
-  async findUserCode(userCode: string) {
-    const isUserCode = this.prisma.user.findFirst({
-      where: { userCode: userCode },
-    });
-
-    return isUserCode === undefined || isUserCode === null;
+  async validate(value: string): Promise<boolean> {
+    const findUser = await this.repository.findOneByUserCode(value);
+    return !!findUser;
   }
 }
 
@@ -30,10 +24,10 @@ export const IsUserCodeValid = (optionsValidation: ValidationOptions) => {
   return (object: object, property: string) => {
     registerDecorator({
       target: object.constructor,
-      validator: UserCodeVerification,
       propertyName: property,
       options: optionsValidation,
       constraints: [],
+      validator: UserCodeValidator,
     });
   };
 };

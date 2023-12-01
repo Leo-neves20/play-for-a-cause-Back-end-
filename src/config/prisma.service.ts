@@ -6,7 +6,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   async onModuleInit() {
     this.$connect();
   }
-  $connect(): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
+  // $connect(): Promise<void> {
+  //   throw new Error('Method not implemented.');
+  // }
 }

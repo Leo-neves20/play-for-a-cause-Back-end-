@@ -1,24 +1,22 @@
 import {
   ValidationOptions,
+  ValidatorConstraint,
   ValidatorConstraintInterface,
   registerDecorator,
-} from 'class-validator';
+} from "class-validator";
+import { UserService } from "../user.service";
+import { Injectable } from "@nestjs/common";
 
-export class PasswordValidation implements ValidatorConstraintInterface {
-  constructor(private PasswordVerification: PasswordVerification) {}
+@Injectable()
+@ValidatorConstraint({
+  async: true,
+})
+export class PasswordValidator implements ValidatorConstraintInterface {
+  constructor(private userService: UserService) {}
 
-  validate(value: string): Promise<boolean> {
-    const isValid = this.PasswordVerification.validate(value);
+  async validate(value: string): Promise<boolean> {
+    const isValid = await this.userService.userPasswordValidation(value);
     return isValid;
-  }
-}
-
-class PasswordVerification {
-  private passwordRegex =
-    /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-])(?=.*[A-Z]).+$/;
-
-  async validate(userPassword: string) {
-    return this.passwordRegex.test(userPassword);
   }
 }
 
@@ -29,7 +27,7 @@ export const IsPasswordValid = (optionsValidation: ValidationOptions) => {
       propertyName: property,
       options: optionsValidation,
       constraints: [],
-      validator: PasswordValidation,
+      validator: PasswordValidator,
     });
   };
 };
