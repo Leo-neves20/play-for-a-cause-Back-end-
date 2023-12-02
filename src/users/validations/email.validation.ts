@@ -16,7 +16,7 @@ export class EmailValidation implements ValidatorConstraintInterface {
 
   async validate(email: string): Promise<boolean> {
     const isAlreadyEmail = await this.repository.findOneByEmail(email);
-    return isAlreadyEmail;
+    return !!isAlreadyEmail;
   }
 }
 
