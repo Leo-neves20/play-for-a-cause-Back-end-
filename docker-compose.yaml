@@ -1,12 +1,12 @@
-version: '3.8'
+version: "3.8"
 name: docker
 services:
   db:
-    container_name: docker
+    container_name: play_for_a_cause
     image: bitnami/postgresql
     ports:
       - 5432:5432
     environment:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
-      - POSTGRESQL_DATABASE=docker
+      - POSTGRESQL_DATABASE=play_for_a_cause
