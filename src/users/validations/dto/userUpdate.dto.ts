@@ -1,7 +1,6 @@
-import { IsEmail, IsNotEmpty, IsOptional, MinLength } from "class-validator";
-import { IsUniqueEmail } from "../email.validation";
-import { IsPasswordValid } from "../password.validation";
-import { IsUserCodeValid } from "../userCode.validation";
+import { IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
+import { IsUniqueEmail } from '../email.validation';
+import { IsPasswordValid } from '../password.validation';
 
 export class UserUpdateDTO {
   @IsNotEmpty({
@@ -9,7 +8,7 @@ export class UserUpdateDTO {
   })
   name: string;
 
-  @IsEmail(undefined, { message: "Email inválido" })
+  @IsEmail(undefined, { message: 'Email inválido' })
   @IsUniqueEmail({
     message: "Este email já está cadastrado. chave: 'email'",
   })
@@ -28,9 +27,6 @@ export class UserUpdateDTO {
 
   @IsNotEmpty({
     message: "código do usuário não pode ser vazio, chave: 'userCode'",
-  })
-  @IsUserCodeValid({
-    message: "Código do usuário já existe. chave: 'userCode'",
   })
   @IsOptional()
   userCode: string;

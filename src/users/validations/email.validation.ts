@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 import {
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
   registerDecorator,
-} from "class-validator";
-import { UserRepository } from "../user.repository";
+} from 'class-validator';
+import { UserRepository } from '../user.repository';
 
 @Injectable()
 @ValidatorConstraint({
@@ -16,7 +16,8 @@ export class EmailValidation implements ValidatorConstraintInterface {
 
   async validate(email: string): Promise<boolean> {
     const isAlreadyEmail = await this.repository.findOneByEmail(email);
-    return !!isAlreadyEmail;
+    console.log('isAlreadyEmail', !isAlreadyEmail);
+    return !isAlreadyEmail ? true : false;
   }
 }
 

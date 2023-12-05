@@ -23,9 +23,6 @@ export class UserCreateDTO {
   })
   password: string;
 
-  @IsNotEmpty({
-    message: "não é possível criar um usuário sem foto. chave: 'urlPhoto'",
-  })
   urlPhoto: string;
 
   talkId: string;
