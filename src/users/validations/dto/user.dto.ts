@@ -1,7 +1,7 @@
-import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
-import { IsUniqueEmail } from "../email.validation";
-import { IsPasswordValid } from "../password.validation";
-import { IsUserCodeValid } from "../userCode.validation";
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsUniqueEmail } from '../email.validation';
+import { IsPasswordValid } from '../password.validation';
+import { IsUserCodeValid } from '../userCode.validation';
 
 export class UserCreateDTO {
   @IsNotEmpty({
@@ -9,7 +9,7 @@ export class UserCreateDTO {
   })
   name: string;
 
-  @IsEmail(undefined, { message: "Email inválido" })
+  @IsEmail(undefined, { message: 'Email inválido' })
   @IsUniqueEmail({
     message: "Este email já está cadastrado. chave: 'email'",
   })
@@ -36,4 +36,6 @@ export class UserCreateDTO {
     message: "não é possível criar um usuário sem foto. chave: 'urlPhoto'",
   })
   urlPhoto: string;
+
+  talkId: string;
 }

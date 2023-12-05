@@ -17,8 +17,11 @@ model User {
   name  String
   userCode String
   urlPhoto String
-  talks Chat[]
+
   messages Message[]
+  
+  talks Chat @relation(fields: [talkId], references: [id])
+  talkId String @db.Uuid
 
 }
 model Chat {

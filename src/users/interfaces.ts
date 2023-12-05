@@ -4,4 +4,5 @@ export interface iUserData {
   password: string;
   userCode: string;
   urlPhoto: string;
+  talkId: string;
 }
