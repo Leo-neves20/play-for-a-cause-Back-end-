@@ -1,31 +1,16 @@
-import { OnModuleInit } from '@nestjs/common';
 import {
-  ConnectedSocket,
-  MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
-@WebSocketGateway({
-  origin: '*',
-})
-export class GetwayService implements OnModuleInit {
-  @WebSocketServer()
-  server: Server;
+@WebSocketGateway(3030, { cors: { origin: 'http://localhost:3001' } })
+export class GetwayService {
+  @WebSocketServer() server: Server;
 
-  onModuleInit() {
-    this.server.on('connection', (socket) => {
-      console.log('user connected');
-      socket.on('disconnect', () => {
-        console.log('user disconnected');
-      });
-    });
-  }
-
-  @SubscribeMessage('message')
-  handleEvent(@ConnectedSocket() client: Socket, @MessageBody() data: unknown) {
-    client.broadcast.emit('chat_message', data);
+  @SubscribeMessage('sendMessage')
+  handleMessage(client: Socket, payload: any | null): void {
+    client.emit('sendMessage', payload);
   }
 }
