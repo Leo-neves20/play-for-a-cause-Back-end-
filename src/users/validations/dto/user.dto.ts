@@ -1,7 +1,6 @@
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { IsUniqueEmail } from '../email.validation';
 import { IsPasswordValid } from '../password.validation';
-import { IsUserCodeValid } from '../userCode.validation';
 
 export class UserCreateDTO {
   @IsNotEmpty({
@@ -23,14 +22,6 @@ export class UserCreateDTO {
       "A senha deve conter um caracter especial e uma letra maiúscula, chave: 'password'",
   })
   password: string;
-
-  @IsNotEmpty({
-    message: "código do usuário não pode ser vazio, chave: 'userCode'",
-  })
-  @IsUserCodeValid({
-    message: "Código do usuário já existe. chave: 'userCode'",
-  })
-  userCode: string;
 
   @IsNotEmpty({
     message: "não é possível criar um usuário sem foto. chave: 'urlPhoto'",

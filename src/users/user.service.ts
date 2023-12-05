@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { iUserData } from "./interfaces";
-import { UserRepository } from "./user.repository";
-import { User } from "@prisma/client";
+import { Injectable } from '@nestjs/common';
+import { iUserData } from './interfaces';
+import { UserRepository } from './user.repository';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -19,17 +19,7 @@ export class UserService {
     const response = await this.repository.findOneByEmail(email);
 
     if (!response) {
-      throw new Error("Usuário não encontrado");
-    }
-
-    return response;
-  }
-
-  async getUsersByCode(code: string) {
-    const response = await this.repository.findOneByUserCode(code);
-
-    if (!response) {
-      throw new Error("Usuário não encontrado");
+      throw new Error('Usuário não encontrado');
     }
 
     return response;
@@ -44,11 +34,11 @@ export class UserService {
     const userData = await this.repository.findUserById(id);
 
     if (!userData) {
-      throw new Error("Usuário não encontrado");
+      throw new Error('Usuário não encontrado');
     }
 
     Object.entries(dataUpdate).forEach(([chave, valor]) => {
-      if (chave === "id") {
+      if (chave === 'id') {
         return;
       }
 

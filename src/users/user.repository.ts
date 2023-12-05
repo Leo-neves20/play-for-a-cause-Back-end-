@@ -33,14 +33,6 @@ export class UserRepository {
     return userEmail;
   }
 
-  async findOneByUserCode(code: string) {
-    const userCode = await this.prisma.user.findFirst({
-      where: { userCode: code },
-    });
-
-    return userCode;
-  }
-
   async findUserById(id: string) {
     const userId = await this.prisma.user.findFirst({ where: { id: id } });
     return userId;

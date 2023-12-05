@@ -15,11 +15,8 @@ model User {
   email String  @unique
   password String
   name  String
-  userCode String
   urlPhoto String
-
   messages Message[]
-  
   talks Chat @relation(fields: [talkId], references: [id])
   talkId String @db.Uuid
 
