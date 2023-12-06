@@ -1,7 +1,7 @@
 import { PrismaService } from 'src/config/prisma.service';
-import { iUserData } from './interfaces';
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
+import { iUserRequest } from 'src/interface/user.interface';
 
 @Injectable()
 export class UserRepository {
@@ -12,7 +12,7 @@ export class UserRepository {
     return request;
   }
 
-  async create(usersData: iUserData) {
+  async create(usersData: iUserRequest) {
     const request = await this.prisma.user.create({ data: usersData });
     return request;
   }

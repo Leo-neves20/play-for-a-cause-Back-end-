@@ -3,9 +3,9 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
   registerDecorator,
-} from "class-validator";
-import { UserService } from "../user.service";
-import { Injectable } from "@nestjs/common";
+} from 'class-validator';
+import { UserService } from '../users/user.service';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 @ValidatorConstraint({

@@ -5,7 +5,7 @@ import {
   ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { UserRepository } from '../user.repository';
+import { UserRepository } from '../users/user.repository';
 
 @Injectable()
 @ValidatorConstraint({

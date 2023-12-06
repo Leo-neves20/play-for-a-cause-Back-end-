@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserCreateDTO } from './validations/dto/user.dto';
-import { UserUpdateDTO } from './validations/dto/userUpdate.dto';
+import { UserCreateDTO, UserUpdateDTO } from 'src/DTO/user.dto';
 
 @Controller('/users')
 export class UserController {
@@ -13,15 +12,15 @@ export class UserController {
     return response;
   }
 
-  @Get('/email/:userEmail')
-  async getUserByEmail(@Param('userEmail') userEmail: string) {
-    const response = await this.service.getUsersByEmail(userEmail);
-    return response;
-  }
-
   @Post()
   async createUser(@Body() userData: UserCreateDTO) {
     const response = await this.service.createUser(userData);
+    return response;
+  }
+
+  @Get('/email/:userEmail')
+  async getUserByEmail(@Param('userEmail') userEmail: string) {
+    const response = await this.service.getUsersByEmail(userEmail);
     return response;
   }
 

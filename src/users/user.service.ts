@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { iUserData } from './interfaces';
 import { UserRepository } from './user.repository';
 import { User } from '@prisma/client';
+import { iUserRequest } from 'src/interface/user.interface';
+import { UserSchema } from 'src/schema/user.schema';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,16 @@ export class UserService {
     return response;
   }
 
+  async createUser(userData: iUserRequest) {
+    if (!userData.urlPhoto) {
+      userData.urlPhoto =
+        'https://cdn.icon-icons.com/icons2/2942/PNG/512/profile_icon_183860.png';
+    }
+
+    const response = await this.repository.create(userData);
+    return new UserSchema(response).bodyShowEmail();
+  }
+
   async getUsersByEmail(email: string) {
     const response = await this.repository.findOneByEmail(email);
 
@@ -22,11 +33,6 @@ export class UserService {
       throw new Error('Usuário não encontrado');
     }
 
-    return response;
-  }
-
-  async createUser(userData: iUserData) {
-    const response = this.repository.create(userData);
     return response;
   }
 

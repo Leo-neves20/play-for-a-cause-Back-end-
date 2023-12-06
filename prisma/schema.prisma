@@ -17,13 +17,9 @@ model User {
   name  String
   urlPhoto String
   messages Message[]
-  talks Chat @relation(fields: [talkId], references: [id])
-  talkId String @db.Uuid
-
 }
 model Chat {
   id    String     @default(uuid()) @map("id") @db.Uuid @id
-  users User[]
   messages Message[]
 }
 model Message {

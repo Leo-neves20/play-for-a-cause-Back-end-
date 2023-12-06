@@ -1,8 +1,4 @@
-import { Injectable } from "@nestjs/common";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { AuthorizationRepository } from "./authorization.repository";
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class AuthorizationService {
-  constructor(private AuthorizationRepository: AuthorizationRepository) {}
-}
+export class AuthorizationService {}
