@@ -12,3 +12,8 @@ export interface iUserData {
   name: string;
   urlPhoto: string;
 }
+
+export interface iUserLogin {
+  email: string;
+  password: string;
+}

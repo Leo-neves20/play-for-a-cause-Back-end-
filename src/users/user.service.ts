@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { User } from '@prisma/client';
 import { iUserRequest } from 'src/interface/user.interface';
 import { UserSchema } from 'src/schema/user.schema';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -22,6 +23,8 @@ export class UserService {
         'https://cdn.icon-icons.com/icons2/2942/PNG/512/profile_icon_183860.png';
     }
 
+    userData.password = bcrypt.hashSync(userData.password, 10);
+
     const response = await this.repository.create(userData);
     return new UserSchema(response).bodyShowEmail();
   }
@@ -30,7 +33,7 @@ export class UserService {
     const response = await this.repository.findOneByEmail(email);
 
     if (!response) {
-      throw new Error('Usuário não encontrado');
+      throw new HttpException('Email ou senha inválido', HttpStatus.NOT_FOUND);
     }
 
     return response;
@@ -40,7 +43,7 @@ export class UserService {
     const userData = await this.repository.findUserById(id);
 
     if (!userData) {
-      throw new Error('Usuário não encontrado');
+      throw new HttpException('Email ou senha inválido', HttpStatus.NOT_FOUND);
     }
 
     Object.entries(dataUpdate).forEach(([chave, valor]) => {

@@ -1,4 +1,14 @@
-import { Controller } from "@nestjs/common";
+import { Body, Controller, Post } from '@nestjs/common';
+import { AuthorizationService } from './authorization.service';
+import { UserLoginDTO } from 'src/DTO/user.dto';
 
-@Controller("/singin")
-export class AuthorizationController {}
+@Controller('/signin')
+export class AuthorizationController {
+  constructor(private service: AuthorizationService) {}
+
+  @Post()
+  async login(@Body() userData: UserLoginDTO) {
+    const response = await this.service.signIn(userData);
+    return response;
+  }
+}

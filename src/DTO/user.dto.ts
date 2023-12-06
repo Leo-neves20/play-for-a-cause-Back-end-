@@ -3,6 +3,15 @@ import { IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
 import { IsUniqueEmail } from 'src/validators/email.validation';
 import { IsPasswordValid } from 'src/validators/password.validation';
 
+export class UserLoginDTO {
+  @IsEmail(undefined, { message: 'Email inválido' })
+  email: string;
+
+  @MinLength(6, {
+    message: "a senha precisa ter no minimo 6 dígitos, chave: 'password'",
+  })
+  password: string;
+}
 export class UserCreateDTO {
   @IsNotEmpty({
     message: "Nome não pode ser vazio. chave: 'name'",
