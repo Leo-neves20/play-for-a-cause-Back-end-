@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { iUserLogin } from 'src/interface/user.interface';
 import { UserService } from 'src/users/user.service';
 import * as bcrypt from 'bcrypt';
@@ -15,13 +15,19 @@ export class AuthorizationService {
     const getUser = await this.userService.getUsersByEmail(userData.email);
 
     if (!getUser) {
-      throw new UnauthorizedException('Email ou senha incorreto');
+      throw new HttpException(
+        'Email ou senha inválido',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     const passwordVerify = bcrypt.compare(userData.password, userData.password);
 
     if (!passwordVerify) {
-      throw new UnauthorizedException('Email ou senha incorreto');
+      throw new HttpException(
+        'Email ou senha inválido',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     const payload = {

@@ -24,7 +24,10 @@ model Chat {
 }
 model Message {
   id    String     @default(uuid()) @map("id") @db.Uuid @id
-  createdAt DateTime
+
+  text String
+
+  createdAt DateTime @default(now())
   
   chat Chat @relation(fields: [chatId], references: [id])
   chatId  String @db.Uuid

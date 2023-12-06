@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { User } from '@prisma/client';
 import { iUserRequest } from 'src/interface/user.interface';
@@ -32,20 +32,11 @@ export class UserService {
   async getUsersByEmail(email: string) {
     const response = await this.repository.findOneByEmail(email);
 
-    if (!response) {
-      throw new HttpException('Email ou senha inválido', HttpStatus.NOT_FOUND);
-    }
-
     return response;
   }
 
   async updateUser(id: string, dataUpdate: Partial<User>) {
     const userData = await this.repository.findUserById(id);
-
-    if (!userData) {
-      throw new HttpException('Email ou senha inválido', HttpStatus.NOT_FOUND);
-    }
-
     Object.entries(dataUpdate).forEach(([chave, valor]) => {
       if (chave === 'id') {
         return;
