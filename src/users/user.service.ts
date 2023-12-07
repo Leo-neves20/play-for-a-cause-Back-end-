@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { UserRepository } from './user.repository';
-import { User } from '@prisma/client';
-import { iUserRequest } from 'src/interface/user.interface';
-import { UserSchema } from 'src/schema/user.schema';
-import * as bcrypt from 'bcrypt';
+import { Injectable } from "@nestjs/common";
+import { UserRepository } from "./user.repository";
+import { User } from "@prisma/client";
+import { iUserRequest } from "src/interface/user.interface";
+import { UserSchema } from "src/schema/user.schema";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UserService {
@@ -14,13 +14,19 @@ export class UserService {
 
   async listUsers() {
     const response = await this.repository.list();
-    return response;
+
+    return response.map((user) => new UserSchema(user).body());
+  }
+
+  async getUserById(id: string) {
+    const response = await this.repository.findUserById(id);
+    return new UserSchema(response).body();
   }
 
   async createUser(userData: iUserRequest) {
     if (!userData.urlPhoto) {
       userData.urlPhoto =
-        'https://cdn.icon-icons.com/icons2/2942/PNG/512/profile_icon_183860.png';
+        "https://cdn.icon-icons.com/icons2/2942/PNG/512/profile_icon_183860.png";
     }
 
     userData.password = bcrypt.hashSync(userData.password, 10);
@@ -38,7 +44,7 @@ export class UserService {
   async updateUser(id: string, dataUpdate: Partial<User>) {
     const userData = await this.repository.findUserById(id);
     Object.entries(dataUpdate).forEach(([chave, valor]) => {
-      if (chave === 'id') {
+      if (chave === "id") {
         return;
       }
 

@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/config/prisma.service';
-import { iMessageData } from 'src/interface/message.interface';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "src/config/prisma.service";
+import { iMessageData } from "src/interface/message.interface";
 
 @Injectable()
 export class MessageRepository {
@@ -18,5 +18,10 @@ export class MessageRepository {
     });
 
     return createMessage;
+  }
+
+  async list() {
+    const response = await this.prisma.message.findMany();
+    return response;
   }
 }
